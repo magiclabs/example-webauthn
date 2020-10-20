@@ -28,9 +28,14 @@ export default function App() {
     });
   }, [isLoggedIn, isChrome]);
 
-  const login = async () => {
+  const register = async () => {
     await magic.webauthn.registerNewUser({ username });
     setIsLoggedIn(true);
+  };
+
+  const login = async () => {
+      await magic.webauthn.login({username});
+      setIsLoggedIn(true);
   };
 
   const logout = async () => {
@@ -48,7 +53,7 @@ export default function App() {
       </div>
       {!isLoggedIn ? (
         <div className="container">
-          <p>Please sign up</p>
+          <p>Please sign up or login</p>
           <input
             name="username"
             required="required"
@@ -57,7 +62,8 @@ export default function App() {
               setUsername(event.target.value);
             }}
           />
-          <button disabled={!isChrome} onClick={login}>Register</button>
+          <button disabled={!isChrome} onClick={register}>Register</button>
+          <button className="login-button" disabled={!isChrome} onClick={login}>Login</button>
         </div>
       ) : (
         <>

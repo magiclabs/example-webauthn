@@ -18,7 +18,7 @@
 }
 
 .container {
-  width: 300px;
+  width: 250px;
   background-color: #eee;
   text-align: center;
   padding: 27px 18px;
@@ -26,6 +26,10 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.login-button {
+  margin-left: 5px;
 }
 
 .metadata {
