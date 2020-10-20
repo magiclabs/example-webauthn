@@ -62,8 +62,10 @@ export default function App() {
               setUsername(event.target.value);
             }}
           />
-          <button disabled={!isChrome} onClick={register}>Register</button>
-          <button className="login-button" disabled={!isChrome} onClick={login}>Login</button>
+          <div>
+              <button disabled={!isChrome} onClick={register}>Register</button>
+              <button className="login-button" disabled={!isChrome} onClick={login}>Login</button>
+          </div>
         </div>
       ) : (
         <>
