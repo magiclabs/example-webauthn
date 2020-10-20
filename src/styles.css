@@ -1,6 +1,7 @@
 .App {
-  align-self: center;
+  /*align-self: center;*/
   justify-self: center;
+  padding-top: 25vh;
 }
 
 #root {
@@ -9,6 +10,11 @@
   height: 100vh;
   display: grid;
   font-size: 18px;
+}
+
+.title {
+  text-align: center;
+  padding-bottom: 30px;
 }
 
 .container {
@@ -31,7 +37,10 @@
 h1 {
   margin: 0;
   padding-bottom: 18px;
-  font-size: 18px;
+}
+
+h2 {
+
 }
 
 .info {
@@ -47,6 +56,12 @@ h1 {
 
 .info a {
   color: black;
+}
+
+p {
+  margin: 0;
+  padding-bottom: 18px;
+  font-size: 18px;
 }
 
 input,

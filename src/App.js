@@ -14,11 +14,9 @@ export default function App() {
   const [metadata, setMetadata] = useState(null);
   const [isChrome] = useState(!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime));
 
-  // const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-
   useEffect(() => {
     if (!isChrome) {
-      alert("WebAuthn feature only support on Chrome now. Please use Chrome!")
+      alert("WebAuthn is only supported on Google Chrome. Additional browser support is coming soon!")
     }
 
     magic.user.isLoggedIn().then(async (magicIsLoggedIn) => {
@@ -45,9 +43,13 @@ export default function App() {
 
   return (
     <div className="App">
+      <div className="title">
+        <h1>WebAuthn Login with Magic </h1>
+        <h4>Login with Yubikey or TouchID on your browser!</h4>
+      </div>
       {!isLoggedIn ? (
         <div className="container">
-          <h1>Please sign up or login</h1>
+          <p>Please sign up or login</p>
           <input
             name="username"
             required="required"
@@ -62,7 +64,7 @@ export default function App() {
         <>
         <div>
           <div className="container">
-            <h1>Current user: {username}</h1>
+            <p>Current user: {username}</p>
             <button onClick={logout}>Logout</button>
           </div>
         </div>
