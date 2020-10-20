@@ -48,7 +48,7 @@ export default function App() {
       </div>
       {!isLoggedIn ? (
         <div className="container">
-          <p>Please sign up or login</p>
+          <p>Please sign up</p>
           <input
             name="username"
             required="required"
