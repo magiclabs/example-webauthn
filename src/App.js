@@ -3,8 +3,7 @@ import "./styles.css";
 import { Magic } from "magic-sdk";
 import { WebAuthnExtension } from "@magic-ext/webauthn";
 
-const magic = new Magic("pk_test_8027A11635E49A34", {
-  endpoint: "http://localhost:3014/",
+const magic = new Magic("pk_test_14BB008A685E26E4", {
   extensions: [new WebAuthnExtension()]
 });
 
