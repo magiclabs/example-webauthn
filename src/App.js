@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isChrome) {
-      alert("WebAuthn is only supported on Google Chrome. Additional browser support is coming soon!")
+      alert("WebAuthn is only supported on Google Chrome on a laptop or desktop. Additional browser support is coming soon!")
     }
 
     magic.user.isLoggedIn().then(async (magicIsLoggedIn) => {
@@ -49,11 +49,11 @@ export default function App() {
     <div className="App">
       <div className="title">
         <h1>WebAuthn Login with Magic </h1>
-        <h4>Login with Yubikey or TouchID on your browser!</h4>
+        <h4>Login with Yubikey or TouchID on your Chrome browser</h4>
       </div>
       {!isLoggedIn ? (
         <div className="container">
-          <p>Please sign up or login</p>
+          <p>Please sign up or log in</p>
           <input
             name="username"
             required="required"
@@ -63,8 +63,8 @@ export default function App() {
             }}
           />
           <div>
-              <button disabled={!isChrome} onClick={register}>Register</button>
-              <button className="login-button" disabled={!isChrome} onClick={login}>Login</button>
+              <button disabled={!isChrome} onClick={register}>Sign up</button>
+              <button className="login-button" disabled={!isChrome} onClick={login}>Log in</button>
           </div>
         </div>
       ) : (
@@ -72,7 +72,7 @@ export default function App() {
         <div>
           <div className="container">
             <p>Current user: {username}</p>
-            <button onClick={logout}>Logout</button>
+            <button onClick={logout}>Log out</button>
           </div>
         </div>
         <div>
