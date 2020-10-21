@@ -3,7 +3,7 @@ import "./styles.css";
 import { Magic } from "magic-sdk";
 import { WebAuthnExtension } from "@magic-ext/webauthn";
 
-const magic = new Magic("pk_test_14BB008A685E26E4", {
+const magic = new Magic("pk_test_196B83E1C870F939", {
   extensions: [new WebAuthnExtension()]
 });
 
@@ -34,8 +34,8 @@ export default function App() {
   };
 
   const login = async () => {
-      await magic.webauthn.login({username});
-      setIsLoggedIn(true);
+    await magic.webauthn.login({username});
+    setIsLoggedIn(true);
   };
 
   const logout = async () => {
