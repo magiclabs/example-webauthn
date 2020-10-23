@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isChrome) {
-      alert("WebAuthn is only supported on Google Chrome on a laptop or desktop. Additional browser support is coming soon!")
+      alert("This demo is only supported on Google Chrome on a laptop or desktop. Demos on other browsers and platforms are coming soon!")
     }
 
     magic.user.isLoggedIn().then(async (magicIsLoggedIn) => {
