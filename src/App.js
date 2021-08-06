@@ -3,7 +3,7 @@ import "./styles.css";
 import { Magic } from "magic-sdk";
 import { WebAuthnExtension } from "@magic-ext/webauthn";
 
-const magic = new Magic("pk_test_196B83E1C870F939", {
+const magic = new Magic("pk_test_A188148FD5FCEC22", {
   extensions: [new WebAuthnExtension()]
 });
 
@@ -11,7 +11,7 @@ export default function App() {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [metadata, setMetadata] = useState(null);
-  const [isChrome] = useState(!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime));
+  const [isChrome] = useState(navigator.userAgentData?.brands?.some(b => b.brand === 'Google Chrome'))
 
   useEffect(() => {
     if (!isChrome) {
