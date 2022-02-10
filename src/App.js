@@ -3,7 +3,7 @@ import "./styles.css";
 import { Magic } from "magic-sdk";
 import { WebAuthnExtension } from "@magic-ext/webauthn";
 
-const magic = new Magic("pk_test_A188148FD5FCEC22", {
+const magic = new Magic("pk_live_B151BB2AF18DF0BE", {
   extensions: [new WebAuthnExtension()]
 });
 
