@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from "react";
 import "./styles.css";
-import { Magic } from "magic-sdk";
-import { WebAuthnExtension } from "@magic-ext/webauthn";
-
-const magic = new Magic("pk_live_B151BB2AF18DF0BE", {
-  extensions: [new WebAuthnExtension()]
-});
+import React, { useState, useEffect } from "react";
+import { magic } from "./libs/magic";
+import Metadata from "./components/Metadata";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Loading from "./components/Loading";
 
 export default function App() {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [metadata, setMetadata] = useState(null);
-  const [isChrome] = useState(navigator.userAgentData?.brands?.some(b => b.brand === 'Google Chrome'))
+  const [isChromium] = useState(
+    navigator.userAgentData?.brands?.some((b) => b.brand === "Chromium")
+  );
 
   useEffect(() => {
-    if (!isChrome) {
-      alert("This demo is only supported on Google Chrome on a laptop or desktop. Demos on other browsers and platforms are coming soon!")
+    if (!isChromium) {
+      alert(
+        "This demo is only supported on a Chromium browser on a laptop or desktop. Demos on other browsers and platforms are coming soon!"
+      );
     }
+
+    setMetadata({ loading: true });
 
     magic.user.isLoggedIn().then(async (magicIsLoggedIn) => {
       setIsLoggedIn(magicIsLoggedIn);
@@ -24,9 +29,11 @@ export default function App() {
         const metadata = await magic.webauthn.getMetadata();
         setUsername(metadata.username);
         setMetadata(metadata);
+      } else {
+        setMetadata(null);
       }
     });
-  }, [isLoggedIn, isChrome]);
+  }, [isLoggedIn, isChromium]);
 
   const register = async () => {
     await magic.webauthn.registerNewUser({ username });
@@ -34,7 +41,7 @@ export default function App() {
   };
 
   const login = async () => {
-    await magic.webauthn.login({username});
+    await magic.webauthn.login({ username });
     setIsLoggedIn(true);
   };
 
@@ -43,43 +50,51 @@ export default function App() {
     setIsLoggedIn(false);
   };
 
-  const PrettyPrintJson = ({data}) => (data ? <div><pre>{JSON.stringify(data, null, 2) }</pre></div> : <div/>);
-
   return (
-    <div className="App">
-      <div className="title">
-        <h1>WebAuthn Login with Magic </h1>
-        <h4>Login with Yubikey or TouchID on your Chrome browser</h4>
-      </div>
-      {!isLoggedIn ? (
-        <div className="container">
-          <p>Please sign up or log in</p>
-          <input
-            name="username"
-            required="required"
-            placeholder="Enter your username"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-          <div>
-              <button disabled={!isChrome} onClick={register}>Sign up</button>
-              <button className="login-button" disabled={!isChrome} onClick={login}>Log in</button>
-          </div>
-        </div>
-      ) : (
-        <>
-        <div>
+    <>
+      <Header />
+
+      <main>
+        {metadata?.loading ? (
+          <Loading />
+        ) : !isLoggedIn ? (
           <div className="container">
-            <p>Current user: {username}</p>
-            <button onClick={logout}>Log out</button>
+            <p>Please sign up or log in</p>
+            <input
+              name="username"
+              required="required"
+              placeholder="Enter your username"
+              onChange={(event) => {
+                setUsername(event.target.value);
+              }}
+            />
+            <div className="buttons-wrapper">
+              <button disabled={!isChromium} onClick={register}>
+                Sign up
+              </button>
+              <button
+                className="login-button"
+                disabled={!isChromium}
+                onClick={login}
+              >
+                Log in
+              </button>
+            </div>
           </div>
-        </div>
-        <div>
-          <PrettyPrintJson data={metadata}/>
-        </div>
-        </>
-      )}
-    </div>
+        ) : (
+          <>
+            <div className="container">
+              <p>
+                Current user: <strong>{username}</strong>
+              </p>
+              <button onClick={logout}>Log out</button>
+            </div>
+            <Metadata metadata={metadata} />
+          </>
+        )}
+      </main>
+
+      <Footer />
+    </>
   );
 }

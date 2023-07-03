@@ -1,65 +1,107 @@
-.App {
-  /*align-self: center;*/
-  justify-self: center;
-  padding-top: 25vh;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-  Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  height: 100vh;
-  display: grid;
-  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1em;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
-.title {
+header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1em;
+
+  padding: 1em;
+
+  background-color: #6851FF;
+  color: #fff;
+  text-shadow: 2px 0 #3e3197, -2px 0 #3e3197, 0 2px #3e3197, 0 -2px #3e3197,
+             1px 1px #3e3197, -1px -1px #3e3197, 1px -1px #3e3197, -1px 1px #3e3197;
+}
+
+main {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  padding: 1em;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+
+  padding: 1em;
+
+  font-size: 1.5em;
   text-align: center;
-  padding-bottom: 30px;
+  background-color: #6851FF;
+}
+
+a {
+  color: #fff;
+}
+
+a:active {
+  color: #00C988;
+}
+
+h1, h3, h4 {
+  margin: 0;
 }
 
 .container {
   width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  
+  margin: auto;
+  border-radius: 10px;
+  padding: 27px 18px;
+
   background-color: #eee;
   text-align: center;
-  padding: 27px 18px;
-  margin-bottom: 27px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.login-button {
-  margin-left: 5px;
+.buttons-wrapper {
+  display: flex;
+  justify-content: space-between;
 }
 
 .metadata {
-  width: 100%;
-  padding: 27px 18px;
-  margin-bottom: 27px;
+  width: 90%;
+  margin: auto;
+  align-content: center;
+  justify-content: center;
 }
 
-h1 {
-  margin: 0;
-  padding-bottom: 18px;
-}
+#react-json {
+  width: 300px !important;
+  margin: auto;
+  border-radius: 10px;
+  padding: 1em;
 
-h2 {
-
-}
-
-.info {
-  max-width: 21ch;
-  margin: 0 auto;
-  margin-bottom: 18px;
-  background-color: #ddd;
-  padding: 12px 24px;
-  word-wrap: break-word;
-  font-family: "Lucida Console", Monaco, monospace;
-  font-size: 15px;
-}
-
-.info a {
-  color: black;
+  background-color: #eee;
+  word-break: break-all;
 }
 
 p {
@@ -72,7 +114,6 @@ input,
 button {
   padding: 9px;
   font-size: 18px;
-  margin-bottom: 9px;
 }
 
 input.full-width {
@@ -82,6 +123,18 @@ input.full-width {
   text-align: center;
 }
 
-.sending-status {
-  margin-bottom: 10px;
+@media (max-width: 600px) {
+  .metadata {
+    width: 100%;
+    align-content: center;
+    justify-content: center;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .container {
+    width: 100%;
+  }
 }

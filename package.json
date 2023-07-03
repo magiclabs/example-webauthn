@@ -8,8 +8,8 @@
   ],
   "main": "src/index.js",
   "dependencies": {
-    "@magic-ext/webauthn": "0.1.0",
-    "magic-sdk": "2.4.7",
+    "@magic-ext/webauthn": "^12.2.1",
+    "magic-sdk": "^18.2.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-json-view": "^1.19.1",
