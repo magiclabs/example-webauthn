@@ -10,17 +10,9 @@ export default function App() {
   const [username, setUsername] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [metadata, setMetadata] = useState(null);
-  const [isChromium] = useState(
-    navigator.userAgentData?.brands?.some((b) => b.brand === "Chromium")
-  );
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    if (!isChromium) {
-      alert(
-        "This demo is only supported on a Chromium browser on a laptop or desktop. Demos on other browsers and platforms are coming soon!"
-      );
-    }
-
     setMetadata({ loading: true });
 
     magic.user.isLoggedIn().then(async (magicIsLoggedIn) => {
@@ -33,21 +25,37 @@ export default function App() {
         setMetadata(null);
       }
     });
-  }, [isLoggedIn, isChromium]);
+  }, [isLoggedIn]);
 
   const register = async () => {
-    await magic.webauthn.registerNewUser({ username });
-    setIsLoggedIn(true);
+    setIsDisabled(true);
+
+    try {
+      await magic.webauthn.registerNewUser({ username });
+      setIsLoggedIn(true);
+    } catch (err) {
+      console.log("Error registering device:", err);
+      setIsDisabled(false);
+    }
   };
 
   const login = async () => {
-    await magic.webauthn.login({ username });
-    setIsLoggedIn(true);
+    setIsDisabled(true);
+
+    try {
+      await magic.webauthn.login({ username });
+
+      setIsLoggedIn(true);
+    } catch (err) {
+      console.log("Error registering device:", err);
+      setIsDisabled(false);
+    }
   };
 
   const logout = async () => {
     await magic.user.logout();
     setIsLoggedIn(false);
+    setIsDisabled(false);
   };
 
   return (
@@ -69,12 +77,12 @@ export default function App() {
               }}
             />
             <div className="buttons-wrapper">
-              <button disabled={!isChromium} onClick={register}>
+              <button disabled={isDisabled} onClick={register}>
                 Sign up
               </button>
               <button
                 className="login-button"
-                disabled={!isChromium}
+                disabled={isDisabled}
                 onClick={login}
               >
                 Log in
