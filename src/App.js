@@ -1,6 +1,7 @@
 import "./styles.css";
 import React, { useState, useEffect } from "react";
 import { magic } from "./libs/magic";
+import { useError } from "./hooks/useError";
 import Metadata from "./components/Metadata";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -11,6 +12,9 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [metadata, setMetadata] = useState(null);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [error, handleError] = useError();
+  const [showError, setShowError] = useState(false);
+  const [timer, setTimer] = useState();
 
   useEffect(() => {
     setMetadata({ loading: true });
@@ -27,35 +31,71 @@ export default function App() {
     });
   }, [isLoggedIn]);
 
-  const register = async () => {
+  function setError(err) {
+    // clears existing timer
+    timer && clearTimeout(timer);
+
+    try {
+      if (err && err.message) {
+        const targetString = "Error message: ";
+        const messageIndex = err.message.search(targetString);
+        if (messageIndex > -1) {
+          err.truncatedErrorMessage = err.message.slice(messageIndex);
+        }
+      }
+      handleError({ value: err?.truncatedErrorMessage || err.message });
+      setShowError(true);
+
+      const timeout = setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+
+      // sets a new timer
+      setTimer(timeout);
+    } catch (err) {
+      console.log("Error setting error message:", err);
+    }
+  }
+
+  const handleRegisterNewUser = async () => {
     setIsDisabled(true);
 
     try {
-      await magic.webauthn.registerNewUser({ username });
+      const didToken = await magic.webauthn.registerNewUser({ username });
+      console.log("DID Token:", didToken);
+
       setIsLoggedIn(true);
+      setIsDisabled(false);
     } catch (err) {
-      console.log("Error registering device:", err);
+      setError(err);
       setIsDisabled(false);
     }
   };
 
-  const login = async () => {
+  const handleLogin = async () => {
     setIsDisabled(true);
 
     try {
       await magic.webauthn.login({ username });
 
       setIsLoggedIn(true);
+      setIsDisabled(false);
     } catch (err) {
-      console.log("Error registering device:", err);
+      console.log("Error logging in user:", err);
+      setError(err);
       setIsDisabled(false);
     }
   };
 
-  const logout = async () => {
-    await magic.user.logout();
-    setIsLoggedIn(false);
-    setIsDisabled(false);
+  const handleLogout = async () => {
+    try {
+      const logoutSuccessful = await magic.user.logout();
+      console.log("User logged out:", logoutSuccessful);
+
+      setIsLoggedIn(false);
+    } catch (err) {
+      console.log("Error logging out user:", err);
+    }
   };
 
   return (
@@ -77,17 +117,20 @@ export default function App() {
               }}
             />
             <div className="buttons-wrapper">
-              <button disabled={isDisabled} onClick={register}>
+              <button disabled={isDisabled} onClick={handleRegisterNewUser}>
                 Sign up
               </button>
               <button
                 className="login-button"
                 disabled={isDisabled}
-                onClick={login}
+                onClick={handleLogin}
               >
                 Log in
               </button>
             </div>
+            {showError && error && (
+              <span className="error-message">{error}</span>
+            )}
           </div>
         ) : (
           <>
@@ -95,7 +138,7 @@ export default function App() {
               <p>
                 Current user: <strong>{username}</strong>
               </p>
-              <button onClick={logout}>Log out</button>
+              <button onClick={handleLogout}>Log out</button>
             </div>
             <Metadata metadata={metadata} />
           </>

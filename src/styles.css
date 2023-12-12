@@ -123,6 +123,10 @@ input.full-width {
   text-align: center;
 }
 
+.error-message {
+  color: red;
+}
+
 @media (max-width: 600px) {
   .metadata {
     width: 100%;
